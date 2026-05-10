@@ -24,6 +24,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:r2dbc-postgresql")
+	testImplementation("io.r2dbc:r2dbc-h2")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
