@@ -1,0 +1,416 @@
+openapi: 3.0.3
+info:
+  title: Microservice Customer API
+  version: 1.0.0
+  description: OpenAPI contract (Contract-First) for the Customer microservice
+servers:
+  - url: /micro-customer
+    description: Base path for the Customer microservice
+paths:
+  /api/v1/customers:
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomer"
+      responses:
+        "201":
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "409":
+          description: Duplicate identification
+  /api/v1/customers/{identification}:
+    put:
+      summary: Update customer by identification
+      operationId: updateCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCustomer"
+      responses:
+        "200":
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "404":
+          description: Not found
+    get:
+      summary: Get customer by identification
+      operationId: getCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "404":
+          description: Not found
+    delete:
+      summary: Delete customer by identification
+      operationId: deleteCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+  /api/v1/accounts:
+    post:
+      summary: Create an account
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccount"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponseWrapper"
+  /api/v1/accounts/customer/{identification}:
+    get:
+      summary: Get accounts by customer identification
+      operationId: getAccountsByCustomerIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Accounts found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountListResponseWrapper"
+
+  /api/v1/accounts/{accountNumber}:
+    put:
+      summary: Update an account by account number
+      operationId: updateAccount
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAccount"
+      responses:
+        "200":
+          description: Account updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponseWrapper"
+        "404":
+          description: Not found
+    get:
+      summary: Get an account by account number
+      operationId: getAccountByAccountNumber
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Account found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponseWrapper"
+        "404":
+          description: Not found
+    delete:
+      summary: Delete an account by account number
+      operationId: deleteAccount
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Account deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountResponseWrapper"
+        "404":
+          description: Not found
+
+  /api/v1/movements/{accountNumber}:
+    get:
+      summary: Get movements for an account
+      operationId: listMovements
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Movements retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovementListResponseWrapper"
+        "404":
+          description: Not found
+    post:
+      summary: Create movement for an account
+      operationId: createMovement
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMovement"
+      responses:
+        "201":
+          description: Movement registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovementResponseWrapper"
+
+components:
+  schemas:
+    CreateCustomer:
+      type: object
+      required: [name, gender, identification, address, phoneNumber, password]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        gender:
+          type: string
+          enum: [M, F, OTHER]
+        identification:
+          type: string
+          minLength: 1
+          maxLength: 30
+        address:
+          type: string
+          minLength: 1
+          maxLength: 200
+        phoneNumber:
+          type: string
+          pattern: '^\\d{10}$'
+        password:
+          type: string
+          minLength: 8
+    UpdateCustomer:
+      type: object
+      required: [name, gender, address, phoneNumber, password]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        gender:
+          type: string
+          enum: [M, F, OTHER]
+        address:
+          type: string
+          minLength: 1
+          maxLength: 200
+        phoneNumber:
+          type: string
+          pattern: '^\\d{10}$'
+        password:
+          type: string
+          minLength: 8
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        gender:
+          type: string
+        identification:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    CustomerResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/CustomerResponse"
+
+    # Accounts and Movements (Contract-First additions)
+    CreateAccount:
+      type: object
+      required: [accountNumber, accountType, customerIdentification, initialBalance]
+      properties:
+        accountNumber:
+          type: string
+          description: Account number to register
+          minLength: 1
+        accountType:
+          type: string
+          enum: [AHORRO, CREDITO]
+          description: Account type
+          minLength: 1
+        customerIdentification:
+          type: string
+          description: Customer identification linked to the account
+          minLength: 1
+        initialBalance:
+          type: number
+          format: double
+          minimum: 0
+          exclusiveMinimum: true
+          description: Initial balance, must be greater than 0
+
+    UpdateAccount:
+      type: object
+      required: [currentBalance]
+      properties:
+        accountType:
+          type: string
+          enum: [AHORRO, CREDITO]
+          description: New account type
+        currentBalance:
+          type: number
+          format: double
+          minimum: 0
+          description: Current balance, must be greater than or equal to 0
+
+    AccountResponse:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        accountType:
+          type: string
+          enum: [AHORRO, CREDITO]
+        customerIdentification:
+          type: string
+        balance:
+          type: number
+          format: double
+
+    AccountResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/AccountResponse"
+
+    AccountListResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountResponse"
+
+    CreateMovement:
+      type: object
+      required: [type, amount]
+      properties:
+        type:
+          type: string
+          enum: [DEBIT, CREDIT]
+          description: Movement type
+        amount:
+          type: number
+          format: double
+        description:
+          type: string
+
+    Movement:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        type:
+          type: string
+          enum: [DEBIT, CREDIT]
+        amount:
+          type: number
+          format: double
+        date:
+          type: string
+          format: date-time
+
+    MovementResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/Movement"
+
+    MovementListResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Movement"
+
+
