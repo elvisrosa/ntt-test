@@ -1,24 +1,3 @@
-# Guia para despliegue
-
-Este repositorio es un monorepo con 2 microservicios
-
-- `microservice-banking` (port 8081, WebFlux base path `/micro-banking`)
-- `microservice-customer` (port 8080, WebFlux base path `/micro-customer`)
-
-Both services provide a `Dockerfile` in their respective folders and the orchestration is managed with `docker-compose.yml` at repository root.
-
-Prerequisites
-
-- Docker (engine) installed
-- Docker Compose (v2) or `docker compose` command
-
-Quick start (build and run everything)
-
-```bash
-# from the repository root (where docker-compose.yml and BaseDatos.sql live)
-docker compose up --build
-```
-
 # Guía de despliegue
 
 Este repositorio es un monorepo que contiene 2 microservicios:
