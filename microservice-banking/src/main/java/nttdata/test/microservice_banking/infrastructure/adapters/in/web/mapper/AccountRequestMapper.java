@@ -20,7 +20,6 @@ public class AccountRequestMapper {
 
     public UpdateAccountCommand toUpdateCommand(UpdateAccount request) {
         return new UpdateAccountCommand(
-                request.customerIdentification(),
                 request.initialBalance());
     }
 }

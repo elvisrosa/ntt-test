@@ -18,7 +18,7 @@ import reactor.netty.http.client.HttpClient;
 @Configuration
 public class WebClientConfig {
 
-    @Value("${BANKING_SERVICE_URL:http://banking:8081/micro-banking/api/v1}")
+    @Value("${BANKING_SERVICE_URL:http://localhost:8081/micro-banking/api/v1}")
     private String bankingServiceUrl;
 
     @Bean

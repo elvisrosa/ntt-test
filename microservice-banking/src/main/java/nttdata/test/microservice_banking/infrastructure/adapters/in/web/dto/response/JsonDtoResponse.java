@@ -1,16 +1,17 @@
 package nttdata.test.microservice_banking.infrastructure.adapters.in.web.dto.response;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import reactor.core.publisher.Mono;
+import org.springframework.http.ResponseEntity;
+
 import lombok.Data;
+import reactor.core.publisher.Mono;
 
 @Data
 public class JsonDtoResponse<T> {
 
-    private int statusCode;
-
     private String message;
+
+    private int statusCode;
 
     private T result;
 

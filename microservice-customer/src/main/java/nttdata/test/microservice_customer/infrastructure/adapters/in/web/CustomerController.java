@@ -27,7 +27,6 @@ public class CustomerController {
     public Mono<ResponseEntity<JsonDtoResponse<CustomerResponse>>> createCustomer(
             @Valid @RequestBody CreateCustomer request) {
         CreateCustomerCommand command = requestMapper.toCreateCommand(request);
-
         return customerUseCase.createCustomer(command)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED)
                         .body(JsonDtoResponse.created("Customer created successfully", response)));
@@ -37,9 +36,7 @@ public class CustomerController {
     public Mono<ResponseEntity<JsonDtoResponse<CustomerResponse>>> updateCustomerByIdentification(
             @PathVariable(name = "identification") String identification,
             @Valid @RequestBody UpdateCustomer request) {
-
         UpdateCustomerCommand command = requestMapper.toUpdateCommand(request);
-
         return customerUseCase.updateCustomerByIdentification(identification, command)
                 .map(response -> ResponseEntity.ok(JsonDtoResponse.ok("Customer updated successfully", response)));
     }
@@ -49,17 +46,14 @@ public class CustomerController {
             @PathVariable(name = "identification") String identification) {
         log.info("GET /api/v1/customers/{} - Getting customer by identification", identification);
         return customerUseCase.getCustomerByIdentification(identification)
-                .map(response -> ResponseEntity.ok(JsonDtoResponse.ok("Customer found", response)))
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+                .map(response -> ResponseEntity.ok(JsonDtoResponse.ok("Customer found", response)));
     }
 
     @DeleteMapping("/{identification}")
-    public Mono<ResponseEntity<Void>> deleteCustomerByIdentification(
+    public Mono<ResponseEntity<JsonDtoResponse<Void>>> deleteCustomerByIdentification(
             @PathVariable(name = "identification") String identification) {
         return customerUseCase.deleteCustomerByIdentification(identification)
-                .flatMap(deleted -> Boolean.TRUE.equals(deleted)
-                        ? Mono.just(ResponseEntity.noContent().build())
-                        : Mono.just(ResponseEntity.notFound().build()));
+                .thenReturn(ResponseEntity.ok(JsonDtoResponse.ok("Customer deleted successfully")));
     }
 
 }
