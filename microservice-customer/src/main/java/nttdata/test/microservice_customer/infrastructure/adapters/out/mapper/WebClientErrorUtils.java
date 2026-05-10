@@ -23,14 +23,16 @@ public class WebClientErrorUtils {
 
         String message = errorBody.getMessage();
         String detailError = errorBody.getDetails();
+        Object errorData = errorBody.getResult();
+        log.info("Error response body: message={}, details={}, errorData={}", message, detailError, errorData);
         if (message != null && !message.isBlank()) {
             return Mono.error(new ExceptionCustom(
                     message,
                     statusCode,
                     detailError,
-                    errorBody.getResult()));
+                    errorData));
         }
-        log.error("Error interno MVC: message={}, details={}", message, detailError);
+        log.error("Error interno: message={}, details={}", message, detailError);
         return Mono.error(new ExceptionCustom(
                 "Servicio no disponible, intente nuevamente o contacte al administrador del sistema",
                 HttpStatus.SERVICE_UNAVAILABLE.value()));

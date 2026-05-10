@@ -97,13 +97,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ExceptionCustom.class)
-    public Mono<ResponseEntity<JsonDtoResponse<Void>>> handleExceptionCustom(ExceptionCustom ex) {
-        // Log with stacktrace and avoid treating the exception as a formatting argument
+    public Mono<ResponseEntity<JsonDtoResponse<Object>>> handleExceptionCustom(ExceptionCustom ex) {
         log.error("Error Custom", ex);
-        JsonDtoResponse<Void> error = JsonDtoResponse.<Void>error(
+        JsonDtoResponse<Object> error = JsonDtoResponse.<Object>error(
                 ex.getMessage(),
                 ex.getStatus(),
-                null,
+                ex.getResult(),
                 ex.getErrorCode());
 
         return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getStatus())).body(error));
