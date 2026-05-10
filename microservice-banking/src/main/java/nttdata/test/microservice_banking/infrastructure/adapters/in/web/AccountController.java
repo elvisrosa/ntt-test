@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +25,8 @@ import nttdata.test.microservice_banking.infrastructure.adapters.in.web.dto.requ
 import nttdata.test.microservice_banking.infrastructure.adapters.in.web.dto.response.JsonDtoResponse;
 import nttdata.test.microservice_banking.infrastructure.adapters.in.web.mapper.AccountRequestMapper;
 import reactor.core.publisher.Mono;
-
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor

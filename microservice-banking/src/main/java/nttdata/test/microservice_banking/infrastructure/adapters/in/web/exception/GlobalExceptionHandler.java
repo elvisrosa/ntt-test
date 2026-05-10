@@ -1,10 +1,5 @@
 package nttdata.test.microservice_banking.infrastructure.adapters.in.web.exception;
 
-import nttdata.test.microservice_banking.domain.exception.ExceptionCustom;
-import nttdata.test.microservice_banking.infrastructure.adapters.in.web.dto.response.JsonDtoResponse;
-
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.bind.support.WebExchangeBindException;
@@ -13,10 +8,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+
 import reactor.core.publisher.Mono;
 import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
+
 import lombok.Builder;
+import nttdata.test.microservice_banking.domain.exception.ExceptionCustom;
+import nttdata.test.microservice_banking.infrastructure.adapters.in.web.dto.response.JsonDtoResponse;
 
 @Slf4j
 @RestControllerAdvice
@@ -81,7 +81,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExceptionCustom.class)
     public Mono<ResponseEntity<JsonDtoResponse<Void>>> handleExceptionCustom(ExceptionCustom ex) {
-        log.error("Error Custom {}", ex);
+        // Log with stacktrace and avoid treating the exception as a formatting argument
+        log.error("Error Custom", ex);
         JsonDtoResponse<Void> error = JsonDtoResponse.<Void>error(
                 ex.getMessage(),
                 ex.getStatus(),
@@ -89,23 +90,6 @@ public class GlobalExceptionHandler {
                 ex.getErrorCode());
 
         return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getStatus())).body(error));
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public Mono<ResponseEntity<JsonDtoResponse<Void>>> handleExceptionCustom(DataIntegrityViolationException ex) {
-        log.error("Error Custom {}", ex);
-        JsonDtoResponse<Void> error = JsonDtoResponse.<Void>conflict(ex.getMessage(), null);
-        return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).body(error));
-    }
-
-    @ExceptionHandler(MethodNotAllowedException.class)
-    public Mono<ResponseEntity<JsonDtoResponse<Void>>> handleMethodNotAllowed(MethodNotAllowedException ex,
-            ServerWebExchange exchange) {
-        log.warn("Method not allowed: {} {}", exchange.getRequest().getMethod(), exchange.getRequest().getURI());
-        JsonDtoResponse<Void> error = JsonDtoResponse.<Void>error("Request method not supported",
-                HttpStatus.METHOD_NOT_ALLOWED.value(), null,
-                null);
-        return Mono.just(ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(error));
     }
 
     @Builder

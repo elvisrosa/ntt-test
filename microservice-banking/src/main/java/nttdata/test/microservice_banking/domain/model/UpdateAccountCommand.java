@@ -3,6 +3,6 @@ package nttdata.test.microservice_banking.domain.model;
 import java.math.BigDecimal;
 
 public record UpdateAccountCommand(
-        BigDecimal initialBalance) {
-
+        String accountType,
+        BigDecimal currentBalance) {
 }
