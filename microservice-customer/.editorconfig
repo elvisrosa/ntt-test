@@ -1,0 +1,36 @@
+# Raíz: no buscar arriba more .editorconfig
+root = true
+
+# ——————————————————————— Todos los archivos ———————————————————————
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# ————————————————————— .java —————————————————————
+[*.java]
+indent_style = space
+indent_size = 4
+continuation_indent_size = 8
+max_line_length = 120
+ij_max_line_length = 120
+
+# ————————————————————— .xml —————————————————————
+[*.xml]
+indent_style = space
+indent_size = 2
+
+# ————————————————————— YAML —————————————————————
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# ————————————————————— JSON —————————————————————
+[*.json]
+indent_style = space
+indent_size = 2
+
+# ————————————————————— Markdown / Texto —————————————————————
+[*.md]
+trim_trailing_whitespace = false

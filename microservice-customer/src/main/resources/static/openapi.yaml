@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Microservice Customer API
+  version: 1.0.0
+  description: OpenAPI contract (Contract-First) for the Customer microservice
+servers:
+  - url: /
+paths:
+  /api/v1/customers:
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomer"
+      responses:
+        "201":
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "409":
+          description: Duplicate identification
+  /api/v1/customers/{identification}:
+    put:
+      summary: Update customer by identification
+      operationId: updateCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCustomer"
+      responses:
+        "200":
+          description: Customer updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "404":
+          description: Not found
+    get:
+      summary: Get customer by identification
+      operationId: getCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponseWrapper"
+        "404":
+          description: Not found
+    delete:
+      summary: Delete customer by identification
+      operationId: deleteCustomerByIdentification
+      parameters:
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+components:
+  schemas:
+    CreateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+        gender:
+          type: string
+        identification:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+      required: [name, identification, password]
+    UpdateCustomer:
+      type: object
+      properties:
+        name:
+          type: string
+        gender:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        gender:
+          type: string
+        identification:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    CustomerResponseWrapper:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/CustomerResponse"

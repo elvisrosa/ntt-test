@@ -1,0 +1,40 @@
+package nttdata.test.microservice_customer.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.WebClient;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import io.netty.channel.ChannelOption;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import reactor.netty.http.client.HttpClient;
+
+@Configuration
+public class WebClientConfig {
+
+    @Value("${BANKING_SERVICE_URL:http://banking:8081/micro-banking/api/v1}")
+    private String bankingServiceUrl;
+
+    @Bean
+    public WebClient bankingWebClient() {
+        HttpClient httpClient = HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+                .responseTimeout(Duration.ofSeconds(5))
+                .doOnConnected(conn -> conn
+                        .addHandlerLast(new ReadTimeoutHandler(5, TimeUnit.SECONDS))
+                        .addHandlerLast(new WriteTimeoutHandler(5, TimeUnit.SECONDS)));
+
+        return WebClient.builder()
+                .baseUrl(bankingServiceUrl)
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
+
+}

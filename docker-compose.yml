@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: testbank
+      POSTGRES_USER: bankadmin
+      POSTGRES_PASSWORD: "SecureBank@2026!"
+    ports:
+      - "5435:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./BaseDatos.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  banking:
+    build:
+      context: ./microservice-banking
+      args:
+        SERVICE: microservice-banking
+    image: microservices-app:banking
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://db:5432/testbank
+      - SPRING_R2DBC_USERNAME=bankadmin
+      - SPRING_R2DBC_PASSWORD=SecureBank@2026!
+      - SPRING_R2DBC_DRIVER-CLASS-NAME=org.postgresql.Driver
+      - SERVICE=microservice-banking
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+
+  customer:
+    build:
+      context: ./microservice-customer
+      args:
+        SERVICE: microservice-customer
+    image: microservices-app:customer
+    environment:
+      - SPRING_R2DBC_URL=r2dbc:postgresql://db:5432/testbank
+      - SPRING_R2DBC_USERNAME=bankadmin
+      - SPRING_R2DBC_PASSWORD=SecureBank@2026!
+      - SERVICE=microservice-customer
+      - BANKING_SERVICE_URL=http://banking:8081/micro-banking/api/v1
+    depends_on:
+      - db
+      - banking
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:
