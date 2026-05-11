@@ -298,5 +298,3 @@ ORDER BY idx_scan DESC;
 -- ============================================================
 -- END OF SCHEMA
 -- ============================================================
-
-COMMENT ON DATABASE current_database() IS 'Banking Microservice - Account Service Database';
