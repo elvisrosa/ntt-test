@@ -1,0 +1,548 @@
+{
+  "info": {
+    "_postman_id": "6d63077b-8f72-4136-a0cb-21f9c9905107",
+    "name": "test.nttdata",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "22457024",
+    "_collection_link": "https://go.postman.co/collection/22457024-6d63077b-8f72-4136-a0cb-21f9c9905107?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "micro-customer",
+      "item": [
+        {
+          "name": "banking",
+          "item": [
+            {
+              "name": "report_by_Client",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/movements/reports/1208177061?startDate=2026-02-01&endDate=2026-05-10",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "movements",
+                    "reports",
+                    "1208177061"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2026-02-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2026-05-10"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get-movement",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/movements/121212",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "movements",
+                    "121212"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create-movement",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"amount\": 1,\n    \"type\": \"DEBIT\",\n    \"description\": \"Ejemplo\"\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/movements/123456",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "movements",
+                    "123456"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "accounts",
+          "item": [
+            {
+              "name": "create",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountNumber\": \"121212\",\n  \"accountType\": \"AHORRO\",\n  \"customerIdentification\": \"1208177061\",\n  \"initialBalance\": 1000\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/accounts",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "accounts"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get_by_accountnumber",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/accounts/121212",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "121212"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update_by_accountnumber",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"initialBalance\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/accounts/1122333",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "1122333"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete_by_accountnumber",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8080/micro-customer/api/v1/accounts/1122333",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "1122333"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elvis Adrian\",\n  \"gender\": \"M\",\n  \"identification\": \"1208177061\",\n  \"address\": \"Av. Principal 123 y Calle Secundaria\",\n  \"phoneNumber\": \"0982263891\",\n  \"password\": \"secure123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/micro-customer/api/v1/customers",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "micro-customer",
+                "api",
+                "v1",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Elvis Adrian Actualizado Montoya\",\n  \"gender\": \"M\",\n  \"address\": \"Av. Principal 123 y Calle Secundaria Actualizado\",\n  \"phoneNumber\": \"0982263891\",\n  \"password\": \"secure123 Actualizado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/micro-customer/api/v1/customers/1208177061",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "micro-customer",
+                "api",
+                "v1",
+                "customers",
+                "1208177061"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/micro-customer/api/v1/customers/1208177061",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "micro-customer",
+                "api",
+                "v1",
+                "customers",
+                "1208177061"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/micro-customer/api/v1/customers/1208177061",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "micro-customer",
+                "api",
+                "v1",
+                "customers",
+                "1208177061"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "micro-banking",
+      "item": [
+        {
+          "name": "accounts",
+          "item": [
+            {
+              "name": "get_by_accountnumber",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/accounts/121212",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "121212"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "create",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"accountNumber\": \"112233\",\n  \"accountType\": \"AHORRO\",\n  \"customerIdentification\": \"1208177061\",\n  \"initialBalance\": 1500.50\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/accounts",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "accounts"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update_by_accountnumber",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerIdentification\": \"\",\n  \"initialBalance\": 1505.50\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/accounts/112233",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "112233"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete_by_accountnumber",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/accounts/112233",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "accounts",
+                    "112233"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "movements",
+          "item": [
+            {
+              "name": "create",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"amount\": 10.7,\n    \"type\": \"DEBIT\",\n    \"description\": \"Ejemplo\"\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/movements/112233",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "movements",
+                    "112233"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get_by_accountid",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8081/micro-banking/api/v1/movements/112233",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "micro-banking",
+                    "api",
+                    "v1",
+                    "movements",
+                    "112233"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "report_by_Client",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:8080/micro-customer/reports/1208177061/download?startDate=2026-02-01&endDate=2026-05-10&format=excel",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "micro-customer",
+                    "reports",
+                    "1208177061",
+                    "download"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2026-02-01"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2026-05-10"
+                    },
+                    {
+                      "key": "format",
+                      "value": "excel"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
