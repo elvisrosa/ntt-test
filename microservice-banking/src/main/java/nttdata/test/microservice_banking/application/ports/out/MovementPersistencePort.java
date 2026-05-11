@@ -12,4 +12,6 @@ public interface MovementPersistencePort {
 
     Flux<Movement> findByAccountId(UUID accountId);
 
+    Flux<Movement> findByClientIdentificationAndDateRange(String identification, java.time.LocalDateTime start, java.time.LocalDateTime end);
+
 }

@@ -7,12 +7,9 @@ import nttdata.test.microservice_banking.domain.exception.ExceptionCustom;
 import nttdata.test.microservice_banking.domain.model.Movement;
 import nttdata.test.microservice_banking.infrastructure.adapters.out.mapper.MovementEntityMapper;
 import nttdata.test.microservice_banking.infrastructure.persistence.r2dbc.MovementEntity;
-
 import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,6 +34,13 @@ public class MovementPersistenceAdapter implements MovementPersistencePort {
     @Override
     public Flux<Movement> findByAccountId(UUID accountId) {
         return movementRepository.findByAccountId(accountId).map(mapper::toDomain);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Flux<Movement> findByClientIdentificationAndDateRange(String identification, java.time.LocalDateTime start, java.time.LocalDateTime end) {
+        return movementRepository.findByClientIdentificationAndDateRange(identification, start, end)
+                .map(mapper::toDomain);
     }
 
 }

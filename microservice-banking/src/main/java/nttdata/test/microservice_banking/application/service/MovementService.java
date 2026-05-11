@@ -10,11 +10,11 @@ import nttdata.test.microservice_banking.domain.model.Movement;
 import nttdata.test.microservice_banking.domain.model.MovementType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import reactor.core.publisher.Flux;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +62,11 @@ public class MovementService implements MovementUseCase {
         return accountPersistencePort.findByAccountNumber(accountNumber)
                 .switchIfEmpty(Mono.error(new ExceptionCustom("Account not found", HttpStatus.NOT_FOUND.value())))
                 .flatMapMany(account -> movementPersistencePort.findByAccountId(account.getId()));
+    }
+
+    @Override
+    public Flux<Movement> getMovementsByClientIdentificationAndDateRange(String identification, LocalDateTime start, LocalDateTime end) {
+        return movementPersistencePort.findByClientIdentificationAndDateRange(identification, start, end);
     }
 
 }
