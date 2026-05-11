@@ -21,7 +21,7 @@ import nttdata.test.microservice_customer.infrastructure.adapters.in.web.export.
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/reports")
+@RequestMapping("/api/v1/movements/reports")
 @RequiredArgsConstructor
 @Slf4j
 public class ReportController {
