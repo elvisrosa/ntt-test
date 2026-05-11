@@ -49,5 +49,22 @@ public class WebClientMovementAdapter implements MovementClientPort {
                 .map(JsonDtoResponse::getResult)
                 .flatMapMany(Flux::fromIterable);
     }
+    
+    @Override
+    public Flux<Movement> getMovementsByClientIdentificationAndDateRange(String clientIdentification, 
+            String startDate, String endDate) {
+        log.debug("[WEB-CLIENT] GET /api/v1/movements/reports/{} with date range: {} to {}", 
+                clientIdentification, startDate, endDate);
+        
+        return bankingWebClient.get()
+                .uri("/movements/reports/{clientIdentification}?startDate={startDate}&endDate={endDate}", 
+                        clientIdentification, startDate, endDate)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchangeToMono(response -> WebClientErrorUtils.handleResponse(response,
+                        new ParameterizedTypeReference<JsonDtoResponse<List<Movement>>>() {
+                        }))
+                .map(JsonDtoResponse::getResult)
+                .flatMapMany(Flux::fromIterable);
+    }
 
 }

@@ -10,5 +10,8 @@ public interface MovementClientPort {
     Mono<Movement> registerMovement(CreateMovementCommand command);
 
     Flux<Movement> getMovementsByAccountNumber(String accountNumber);
+    
+    Flux<Movement> getMovementsByClientIdentificationAndDateRange(String clientIdentification, 
+            String startDate, String endDate);
 
 }
